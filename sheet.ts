@@ -6,3 +6,16 @@ export async function getJwt(filePath?: string): Promise<JWT> {
 
   return new JWT(...JSON.parse(jsonText));
 }
+
+export async function getSpreadsheet(
+  sheetId?: string
+): Promise<GoogleSpreadsheet> {
+  const auth = await getJwt();
+
+  return new GoogleSpreadsheet(
+    sheetId || Deno.env.get("SHEET_ID")!,
+    auth
+  );
+}
+
+
