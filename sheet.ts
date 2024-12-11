@@ -17,19 +17,19 @@ export async function getAuth(filePath?: string): Promise<JWT> {
 }
 
 export async function getSpreadsheet(
-  sheetId?: string
-): Promise<GoogleSpreadsheet>{
-  const auth = await getAuth()
+  sheetId?: string,
+): Promise<GoogleSpreadsheet> {
+  const auth = await getAuth();
 
   return new GoogleSpreadsheet(
     sheetId || Deno.env.get("SHEET_ID")!,
-    auth
+    auth,
   );
 }
 
 interface User {
-    firstName: string
-    lastName: string
-    email: string
-    id: number
+  firstName: string;
+  lastName: string;
+  email: string;
+  id: number;
 }
