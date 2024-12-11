@@ -8,8 +8,12 @@ export async function getAuth(filePath?: string): Promise<JWT> {
   return new JWT({
     email: clientSecret.client_email,
     key: clientSecret.private_key,
-    scopes: clientSecret.scopes,
-  })
+    scopes: [
+      "https://www.googleapis.com/auth/spreadsheets",
+      "https://www.googleapis.com/auth/drive",
+    ],
+    keyId: clientSecret.private_key_id,
+  });
 }
 
 export async function getSpreadsheet(
