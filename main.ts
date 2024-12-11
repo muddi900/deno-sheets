@@ -1,8 +1,8 @@
 import { GoogleSpreadsheet } from "npm:google-spreadsheet";
 import { JWT } from "npm:google-auth-library";
 
+export async function getJwt(filePath?: string): Promise<JWT> {
+  const jsonText = await Deno.readTextFile(filePath || "./client_secret.json");
 
-// Learn more at https://docs.deno.com/runtime/manual/examples/module_metadata#concepts
-if (import.meta.main) {
-  console.log("Add 2 + 3 =", add(2, 3));
+  return new JWT(...JSON.parse(jsonText));
 }
