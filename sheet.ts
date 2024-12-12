@@ -33,3 +33,10 @@ export interface User {
   email: string;
   id: number;
 }
+
+export interface PartialUser {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  id?: number;
+}
