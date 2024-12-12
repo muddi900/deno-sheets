@@ -1,5 +1,5 @@
 import { GoogleSpreadsheetRow } from "npm:google-spreadsheet";
-import { getSpreadsheet } from "./sheet.ts";
+import { getSpreadsheet, User } from "./sheet.ts";
 
 const getUserRoute = new URLPattern({ pathname: "/users/:id" });
 
@@ -30,15 +30,15 @@ async function handler(req: Request): Promise<Response> {
 function getUsers(
   url: string,
   rows: GoogleSpreadsheetRow[],
-): Object | Object[] {
+): User | User[] {
   const match = getUserRoute.exec(url);
   if (!match) {
-    return rows.map((r, _) => r.toObject());
+    return rows.map((r, _) => r.toObject() as User);
   }
 
   const row = rows.find((r, _) => r.get("ID") === match.pathname.groups.id);
 
-  return row!.toObject();
+  return row!.toObject() as User;
 }
 
 Deno.serve(handler);
