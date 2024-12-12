@@ -1,22 +1,44 @@
+import { GoogleSpreadsheetRow } from "npm:google-spreadsheet";
 import { getSpreadsheet } from "./sheet.ts";
 
-const ss = await getSpreadsheet();
+const getUserRoute = new URLPattern({ pathname: "/users/:id" });
 
-await ss.loadInfo();
+async function handler(req: Request): Promise<Response> {
+  const sheet = await getSpreadsheet();
+  await sheet.loadInfo();
+  const ws = sheet.sheetsByIndex[0];
+  const rows = await ws.getRows();
 
-const ws = ss.sheetsByIndex[0];
-await ws.loadHeaderRow();
-const headers = ws.headerValues;
-const rows = [
-  headers,
-  ...(await ws.getRows()).map((row, _) => Object.values(row.toObject())),
-];
-console.table(rows);
-// ┌───────┬──────────────┬─────────────┬──────────────────────┬──────┐
-// │ (idx) │ 0            │ 1           │ 2                    │ 3    │
-// ├───────┼──────────────┼─────────────┼──────────────────────┼──────┤
-// │     0 │ "First Name" │ "Last Name" │ "Email"              │ "ID" │
-// │     1 │ "Alif"       │ "Bay"       │ "alif.bay@fake.fake" │ "1"  │
-// │     2 │ "Eh"         │ "Bee"       │ "a.b@fake.fake"      │ "2"  │
-// │     3 │ "Ecks"       │ "Wye"       │ "e.w@fake.fake"      │ "3"  │
-// └───────┴──────────────┴─────────────┴──────────────────────┴──────┘
+  const reqUrl = req.url;
+  const method = req.method;
+
+  if (method === "GET") {
+    const body = getUsers(reqUrl, rows);
+    return new Response(JSON.stringify(body));
+  }
+
+  return new Response(
+    JSON.stringify({
+      "message": "Hello",
+    }),
+    {
+      status: 200,
+    },
+  );
+}
+
+function getUsers(
+  url: string,
+  rows: GoogleSpreadsheetRow[],
+): Object | Object[] {
+  const match = getUserRoute.exec(url);
+  if (!match) {
+    return rows.map((r, _) => r.toObject());
+  }
+
+  const row = rows.find((r, _) => r.get("ID") === match.pathname.groups.id);
+
+  return row!.toObject();
+}
+
+Deno.serve(handler);
