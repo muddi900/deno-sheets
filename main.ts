@@ -1,4 +1,8 @@
-import { GoogleSpreadsheetRow } from "npm:google-spreadsheet";
+import {
+  GoogleSpreadsheetRow,
+  GoogleSpreadsheetWorksheet,
+} from "npm:google-spreadsheet";
+import RawRowData from "npm:google-spreadsheets/types";
 import { getSpreadsheet, User } from "./sheet.ts";
 
 const getUserRoute = new URLPattern({ pathname: "/users/:id" });
@@ -17,6 +21,14 @@ async function handler(req: Request): Promise<Response> {
     return new Response(JSON.stringify(body));
   }
 
+  if (method === "POST") {
+    const body = JSON.parse(await req.text());
+
+    const users: User[] = body["users"];
+    const respBody = await setUsers(users, ws);
+    return new Response(JSON.stringify(respBody));
+  }
+
   return new Response(
     JSON.stringify({
       "message": "Hello",
@@ -25,6 +37,14 @@ async function handler(req: Request): Promise<Response> {
       status: 200,
     },
   );
+}
+
+async function setUsers(
+  users: User[],
+  ws: GoogleSpreadsheetWorksheet,
+): Promise<User[]> {
+  const r = await ws.addRows(users as RawRowData[]);
+  return r.map((v, _) => v.toObject() as User);
 }
 
 function getUsers(
