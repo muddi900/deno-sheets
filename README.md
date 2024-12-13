@@ -9,11 +9,11 @@ CRUD(**C**reate, **R**ecord, **U**pdate, **D**elete) app out of Google Sheets.
 Since then, I have actually implemented that technology, when helping out a
 family member with their small business. I implemented it on the server side
 using Flask. I wanted to do something similar in Typescript/Javascript. Just for
-experimentation’s sake.
+experimentation's sake.
 
 However, until recently, it was a chore. `Node.js`, the sever side JS runtime,
 is a crufty, unweildy mess. It requires hundreds of dependencies to do even the
-most basic tasks. Unlike python, which has a “batteries included” philosophy,
+most basic tasks. Unlike python, which has a "batteries included” philosophy,
 Node is quite barebones. Then the creators of Node, came up with Deno.
 
 Deno has a similar philosophy than python. And it is cross compatible with node
@@ -22,8 +22,8 @@ packages via npm. So I decided to try it for myself.
 ## The Setup
 
 Like last time, I am using Service Account credentials. You can see how to do
-that here(tklink). You need to install “Deno” in your local system. You can
-check the instructions out on deno’s official site(tklink).
+that here(tklink). You need to install "Deno” in your local system. You can
+check the instructions out on deno's official site(tklink).
 
 Create a folder where you want to host your project, initialize deno.
 
@@ -54,7 +54,7 @@ from Google in the same folder as `client_secret.json`:
 ```
 
 Copy the `client_email` value from your file. Create new google sheet. Name it
-whatever. clic the “Share” button, and paste the email you copied from the json
+whatever. clic the "Share” button, and paste the email you copied from the json
 file. Also copy the sheet ID from url. Create a new file in your root folder
 `.env` and add the following text
 
@@ -158,7 +158,7 @@ server.
 
 I decided to do this the hard way. Deno has a decent built-in http server
 option. Like python, it is very limited. Deno can use Node packages like
-express, and it has it’s own packages for middleware and routing like hono.
+express, and it has it's own packages for middleware and routing like hono.
 However, today we are only going to setup a bare bones REST API server.
 
 ```tsx
