@@ -1,7 +1,7 @@
 # Use Google Sheets as free database(using Deno)[38 before 38]
 
 _This blog is part of my ~~38~~
-[35 before 38](https://chapra.blog/category/38-before-38/) series. I write a
+[34 before 38](https://chapra.blog/category/38-before-38/) series. I write a
 blog for every single day for the 38 days leading up to my 38th Birthday._
 
 I have written previously(tklink) how you can use python to create a
@@ -361,3 +361,49 @@ curl -X PUT http://localhost:8000/users/1 \
 ```
 
 tkaddscreenshot
+We then add a `DELETE` method, to complete our CRUD implementation.
+
+```ts
+async function handler(req: Request): Promise<Response> {
+ 
+
+  if (reqUrl.search("users") > -1) {
+  //...
+
+  if (method === "DELETE") {
+    const id = getUserRoute.exec(reqUrl)?.pathname.groups.id;
+    const row = await rows.find((v, _i) => v.get("id") == id)!;
+
+    const d = await row.delete();
+    console.log(d);
+    return new Response(
+      JSON.stringify({
+        "message": `${id} has been deleted`,
+      }),
+      {
+        status: 200,
+      },
+    );
+  }
+
+  return new Response(
+    JSON.stringify({
+      "message": "Hello",
+    }),
+    {
+      status: 200,
+    },
+  );
+}
+
+//...
+Deno.serve(handler);
+```
+
+```bash
+❯ curl -X DELETE "http://localhost:8000/users/2" | jq
+ 
+{
+  "message": "2 has been deleted"
+}
+```
