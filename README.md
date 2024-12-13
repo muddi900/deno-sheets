@@ -4,16 +4,17 @@ _This blog is part of my ~~38~~
 [34 before 38](https://chapra.blog/category/38-before-38/) series. I write a
 blog for every single day for the 38 days leading up to my 38th Birthday._
 
-I have written previously(tklink) how you can use python to create a
-CRUD(**C**reate, **R**ecord, **U**pdate, **D**elete) app out of Google Sheets.
-Since then, I have actually implemented that technology, when helping out a
-family member with their small business. I implemented it on the server side
-using Flask. I wanted to do something similar in Typescript/Javascript. Just for
-experimentation's sake.
+I have
+[written previously](https://chapra.blog/use-google-sheets-as-a-database-with-python-30-days-of-blog-4-1d288c614163-6/)
+how you can use python to create a CRUD(**C**reate, **R**ecord, **U**pdate,
+**D**elete) app out of Google Sheets. Since then, I have actually implemented
+that technology, when helping out a family member with their small business. I
+implemented it on the server side using Flask. I wanted to do something similar
+in Typescript/Javascript. Just for experimentation's sake.
 
 However, until recently, it was a chore. `Node.js`, the sever side JS runtime,
 is a crufty, unweildy mess. It requires hundreds of dependencies to do even the
-most basic tasks. Unlike python, which has a "batteries included” philosophy,
+most basic tasks. Unlike python, which has a "batteries included" philosophy,
 Node is quite barebones. Then the creators of Node, came up with Deno.
 
 Deno has a similar philosophy than python. And it is cross compatible with node
@@ -22,8 +23,12 @@ packages via npm. So I decided to try it for myself.
 ## The Setup
 
 Like last time, I am using Service Account credentials. You can see how to do
-that here(tklink). You need to install "Deno” in your local system. You can
-check the instructions out on deno's official site(tklink).
+that
+[here](https://developers.google.com/workspace/guides/create-credentials#service-account).
+Also
+[enable google sheets API](https://medium.com/@a.marenkov/how-to-get-credentials-for-google-sheets-456b7e88c430)
+You need to install "Deno" in your local system. You can check the instructions
+out on deno's [official site](https://docs.deno.com/runtime/).
 
 Create a folder where you want to host your project, initialize deno.
 
@@ -54,11 +59,11 @@ from Google in the same folder as `client_secret.json`:
 ```
 
 Copy the `client_email` value from your file. Create new google sheet. Name it
-whatever. clic the "Share” button, and paste the email you copied from the json
+whatever. clic the "Share" button, and paste the email you copied from the json
 file. Also copy the sheet ID from url. Create a new file in your root folder
 `.env` and add the following text
 
-tkaddscreen
+![Screenshot of a google sheet highlighting the ID section of URL](/images/sheet_id.png)
 
 ```bash
 # .env
@@ -346,7 +351,7 @@ Deno.serve(handler);
 ]
 ```
 
-tkaddscreenshot
+![Screenshot with an arrow pointing towards the newly added row](/images/post_req.png)
 
 We can also update a user using the http `PUT` method.
 
@@ -362,7 +367,7 @@ curl -X PUT http://localhost:8000/users/1 \
 }
 ```
 
-tkaddscreenshot
+![Screenshot with an arrow pointing to the edited cell](/images/put_req.png)
 
 We then add a `DELETE` method, to complete our CRUD implementation.
 
@@ -411,7 +416,7 @@ Deno.serve(handler);
 }
 ```
 
-tkaddscreenshot
+![Screenshot showing that the row has been deleted](/images/del_req.png)
 
 ## Conclusion
 
