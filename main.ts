@@ -16,31 +16,33 @@ async function handler(req: Request): Promise<Response> {
   const reqUrl = req.url;
   const method = req.method;
 
-  if (method === "GET") {
-    const body = getUsers(reqUrl, rows);
-    return new Response(JSON.stringify(body));
-  }
+  if (reqUrl.search("users") > -1) {
+    if (method === "GET") {
+      const body = getUsers(reqUrl, rows);
+      return new Response(JSON.stringify(body));
+    }
 
-  if (method === "POST") {
-    const body = JSON.parse(await req.text());
+    if (method === "POST") {
+      const body = JSON.parse(await req.text());
 
-    const users: User[] = body["users"];
-    const respBody = await setUsers(users, ws);
-    return new Response(JSON.stringify(respBody));
-  }
+      const users: User[] = body["users"];
+      const respBody = await setUsers(users, ws);
+      return new Response(JSON.stringify(respBody));
+    }
 
-  if (method === "PUT" || method === "PATCH") {
-    const id = getUserRoute.exec(reqUrl)?.pathname.groups.id;
-    const userData = JSON.parse(await req.text());
-    await updateUser(Number(id), userData, rows);
-    return new Response(
-      JSON.stringify({
-        "message": `${id} updated`,
-      }),
-      {
-        status: 200,
-      },
-    );
+    if (method === "PUT" || method === "PATCH") {
+      const id = getUserRoute.exec(reqUrl)?.pathname.groups.id;
+      const userData = JSON.parse(await req.text());
+      await updateUser(Number(id), userData, rows);
+      return new Response(
+        JSON.stringify({
+          "message": `${id} updated`,
+        }),
+        {
+          status: 200,
+        },
+      );
+    }
   }
 
   if (method === "DELETE") {
