@@ -195,6 +195,8 @@ Since the built in option is limited for routing, I decide to use only 1 route,
 
 First lets get information of a user. All users, and an individual user as well.
 
+### Implementing the CRUD
+
 ```ts
 import {
   GoogleSpreadsheetRow,
@@ -361,6 +363,7 @@ curl -X PUT http://localhost:8000/users/1 \
 ```
 
 tkaddscreenshot
+
 We then add a `DELETE` method, to complete our CRUD implementation.
 
 ```ts
@@ -407,3 +410,11 @@ Deno.serve(handler);
   "message": "2 has been deleted"
 }
 ```
+
+tkaddscreenshot
+
+## Conclusion
+
+This is a very simple barebones implementation but it shows how useful this can
+be. I would not recommend using it in a real production web app, but you can use
+it to automate a lot of data entry tasks.
