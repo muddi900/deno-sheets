@@ -1,5 +1,7 @@
 # Use Google Sheets as free database(using Deno)[38 before 38]
 
+![](/images/38%20before%2038%2031.png)
+
 _This blog is part of my ~~38~~
 [34 before 38](https://chapra.blog/category/38-before-38/) series. I write a
 blog for every single day for the 38 days leading up to my 38th Birthday._
